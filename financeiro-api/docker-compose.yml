@@ -1,0 +1,26 @@
+version: "3.9"
+
+networks:
+  financeiro-network:
+    driver: bridge
+
+services:
+  financeiro-mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: "123456"
+    ports:
+      - "3306:3306"
+    networks:
+      - financeiro-network
+
+  financeiro-api:
+    image: gmsantos30/financeiro-api
+    environment:
+      DB_HOST: financeiro-mysql
+    ports:
+      - "8080:8080"
+    networks:
+      - financeiro-network
+    depends_on:
+      - financeiro-mysql
